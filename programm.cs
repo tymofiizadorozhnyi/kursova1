@@ -31,3 +31,66 @@ namespace TourismManagementSystem
                 string choice = Console.ReadLine();
 
                 switch (choice)
+                {
+                    case "1":
+                        ShowTours(tours);
+                        break;
+                    case "2":
+                        ShowClientsWithDiscounts(clients);
+                        break;
+                    case "3":
+                        ShowTopTour(sales);
+                        break;
+                    case "4":
+                        return;
+                    default:
+                        Console.WriteLine("Невірний вибір, спробуйте ще раз.");
+                        break;
+                }
+            }
+        }
+
+        static void ShowTours(List<Tour> tours)
+        {
+            Console.WriteLine("Введіть назву міста:");
+            string city = Console.ReadLine().Trim(); 
+
+            var cityTours = tours.Where(t => t.City.Equals(city, StringComparison.OrdinalIgnoreCase));
+            if (!cityTours.Any())
+            {
+                Console.WriteLine($"Немає турів для міста {city}");
+            }
+            else
+            {
+                foreach (var tour in cityTours)
+                {
+                    Console.WriteLine($"Тур: {tour.Name}, Ціна: {tour.Price}, Початок: {tour.StartDate.ToShortDateString()}, Кінець: {tour.EndDate.ToShortDateString()}");
+                }
+            }
+        }
+
+        static void ShowClientsWithDiscounts(List<Client> clients)
+        {
+            Console.WriteLine("Клієнти зi знижками: ");
+            foreach (var client in clients.Where(c => c.Discount > 0))
+            {
+                Console.WriteLine($"Клієнт: {client.FullName}, Знижка: {client.Discount}%");
+            }
+        }
+
+        static void ShowTopTour(List<Sale> sales)
+        {
+            var topTour = sales.GroupBy(s => s.TourName)
+                               .OrderByDescending(g => g.Sum(s => s.QuantitySold))
+                               .Select(g => new { TourName = g.Key, TotalSold = g.Sum(s => s.QuantitySold) })
+                               .FirstOrDefault();
+
+            if (topTour != null)
+            {
+                Console.WriteLine($"Найпопулярніший тур: {topTour.TourName}, Продано: {topTour.TotalSold}");
+            }
+            else
+            {
+                Console.WriteLine("Тури ще не були продані.");
+            }
+        }
