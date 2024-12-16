@@ -94,3 +94,32 @@ namespace TourismManagementSystem
                 Console.WriteLine("Тури ще не були продані.");
             }
         }
+class Client
+        {
+            public int Key { get; set; }
+            public required string FullName { get; set; }
+            public required string Phone { get; set; }
+            public required string PassportNumber { get; set; }
+            public int Discount { get; set; }
+        }
+
+        class Tour
+        {
+            public int Key { get; set; }
+            public required string Name { get; set; }
+            public DateTime StartDate { get; set; }
+            public DateTime EndDate { get; set; }
+            public required string City { get; set; }
+            public decimal Price { get; set; }
+            public int AvailableQuantity { get; set; }
+        }
+
+        class Sale
+        {
+            public int Key { get; set; }
+            public required string EmployeeName { get; set; }
+            public required string TourName { get; set; }
+            public int QuantitySold { get; set; }
+        }
+    }
+}
